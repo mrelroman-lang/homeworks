@@ -1,5 +1,5 @@
 resource "local_file" "hosts_templatefile" {
-
+ 
   content = templatefile("${path.module}/hosts.tftpl", {
     vms = [
   { name = "webservers", instances = yandex_compute_instance.web },

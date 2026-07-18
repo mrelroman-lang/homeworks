@@ -2,7 +2,7 @@ resource "yandex_compute_instance" "db" {
   for_each = {
     0 = "main"
     1 = "replica"
-  }
+  } 
   name        = var.each_vm[each.key].vm_name
   platform_id = var.default_vm_instance.platform_id
 

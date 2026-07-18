@@ -6,7 +6,7 @@ terraform {
   }
   required_version = "~>1.12.0"
 }
-
+ 
 provider "yandex" {
   token     = var.token
   cloud_id  = var.cloud_id

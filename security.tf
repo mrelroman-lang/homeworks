@@ -3,7 +3,7 @@ variable "security_group_ingress" {
   type = list(object(
     {
       protocol       = string
-      description    = string
+       description    = string
       v4_cidr_blocks = list(string)
       port           = optional(number)
       from_port      = optional(number)

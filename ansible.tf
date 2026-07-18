@@ -3,7 +3,7 @@ variable "web_provision" {
   default     = true
   description = "ansible provision switch variable"
 }
-
+ 
 
 resource "terraform_data" "web_hosts_provision" {
   count = var.web_provision == true ? 1 : 0

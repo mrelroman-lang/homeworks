@@ -15,4 +15,4 @@ all:
     storage:
         ansible_host: 
         ansible_user: ubuntu
-  
+   

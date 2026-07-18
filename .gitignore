@@ -1,95 +1,12 @@
-# This .gitignore is appropriate for repositories deployed to GitHub Pages and using
-# a Gemfile as specified at https://github.com/github/pages-gem#conventional
+# Local .terraform directories and files
+**/.terraform/*
+.terraform*
 
-# Basic Jekyll gitignores (synchronize to Jekyll.gitignore)
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
+!.terraformrc
 
-# Additional Ruby/bundler ignore for when you run: bundle install
-/vendor
-
-# Specific ignore for GitHub Pages
-# GitHub Pages will always use its own deployed version of pages-gem
-# This means GitHub Pages will NOT use your Gemfile.lock and therefore it is
-# counterproductive to check this file into the repository.
-# Details at https://github.com/github/pages-gem/issues/768
-Gemfile.lock
-
-# Distribution / packaging
-.Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# logs
-*log.txt
-
-control.
-
-# Environments
-.env
-.envrc
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-/site
-
-# PyPI configuration file
-.pypirc
-
-**/yc_yandex.pem
-**/.vagrant/
-# Variables files (where you likely put your token, cloud_id, etc.)
-
-# Local .terraform directory (contains providers and modules)
-.terraform/
-
-# Distributed lock file for system-dependent provider versions
-.terraform.lock.hcl
-
-# State files (contains the current state of your infrastructure)
-# WARNING: These files often contain secrets in plain text!
+# .tfstate files
 *.tfstate
 *.tfstate.*
 
-# Crash log files
-crash.log
-crash.*.log
-
-# Variables files (where you likely put your token, cloud_id, etc.)
-*.tfvars
-*.tfvars.json
-
-# Environment files
-*.env
-authorized_key.json
-
-*.ini
-hosts.yaml
-
-cloud-init.yml.example
-secrets
-
-.vault-pass
-
-
+# own secret vars store.
+personal.auto.tfvars
