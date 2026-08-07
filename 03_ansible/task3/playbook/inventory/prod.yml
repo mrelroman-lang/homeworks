@@ -1,0 +1,24 @@
+---
+clickhouse:
+  hosts:
+    clickhouse-01:
+      ansible_host: 51.250.83.156
+#      ansible_port: 22
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
+      ansible_host_key_checking: false
+#      ansible_python_interpreter: /usr/local/bin/python3.11
+lighthouse:
+  hosts:
+    lighthouse-01:
+      ansible_host: 89.169.144.60
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
+      ansible_host_key_checking: false
+vector:
+  hosts:
+    vector-01:
+      ansible_host: 51.250.88.205
+      ansible_user: ubuntu
+      ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
+      ansible_host_key_checking: false
