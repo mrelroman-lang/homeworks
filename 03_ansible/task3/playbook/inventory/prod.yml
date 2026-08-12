@@ -2,8 +2,7 @@
 clickhouse:
   hosts:
     clickhouse-01:
-      ansible_host: 51.250.83.156
-#      ansible_port: 22
+      ansible_host: 93.77.191.112
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
       ansible_host_key_checking: false
@@ -11,14 +10,14 @@ clickhouse:
 lighthouse:
   hosts:
     lighthouse-01:
-      ansible_host: 89.169.144.60
+      ansible_host: 46.21.247.113
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
       ansible_host_key_checking: false
 vector:
   hosts:
     vector-01:
-      ansible_host: 51.250.88.205
+      ansible_host: 51.250.90.246
       ansible_user: ubuntu
       ansible_ssh_private_key_file: ~/.ssh/ssh-rsa
       ansible_host_key_checking: false

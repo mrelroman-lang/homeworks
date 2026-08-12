@@ -1,0 +1,17 @@
+user ubuntu;
+worker_processes  auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 246;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    sendfile on;
+    keepalive_timeout 65;
+
+    include /etc/nginx/conf.d/*.conf;
+    # или include /etc/nginx/sites-enabled/*;

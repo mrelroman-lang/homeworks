@@ -1,10 +1,13 @@
 ---
 lighthouse_vcs: "https://github.com/VKCOM/lighthouse.git"  # укажи свой репозиторий
-lighthouse_location_dir: "/opt/lighthouse"                   # <-- обязательно
+lighthouse_location_dir: "/var/www/lighthouse"            # <-- обязательно
 lighthouse_git_version: "master"
 clickhouse_version: "22.8.5.29"
 clickhouse_packages:
   - clickhouse-common-static
   - clickhouse-client
   - clickhouse-server
-  
+web_root: "/var/www/lighthouse"
+nginx_user_name: ubuntu
+#nginx_listen_port: 80
+#nginx_server_name: "lighthouse.local"

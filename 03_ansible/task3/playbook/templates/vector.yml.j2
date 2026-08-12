@@ -1,0 +1,22 @@
+#vector_version: hz
+vector_config:
+  sources:
+    our_log:
+      type: file
+      read_from: beginning
+      ignore_older_secs: 600
+      include:
+        - /home/ubuntu/logs/*.log
+  sinks:
+    to_clickhouse:
+      type: clickhouse
+      table: my_table
+	  inputs:
+        - our_logs
+      endpoint:     endpoint: "http://{{ hostvars[groups['clickhouse'][0]]['ansible_host'] | default(groups['clickhouse'][0]) }}:8123" #"http://51.250.90.246:8123"   
+      database: sample
+      table: some_logs
+      skip_unknown_fields: true
+	  database: custom
+      compression: gzip
+      healthcheck: false

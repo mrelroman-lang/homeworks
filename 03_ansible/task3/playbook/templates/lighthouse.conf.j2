@@ -1,3 +1,13 @@
-# Standard Vector configuration
+# templates/lighthouse.conf.j2
+server {
+    listen 80;
+	listen [::]:80;
+    server_name {{ nginx_server_name | default('_') }};
 
+    root {{ web_root }};
+    index index.html;
 
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
