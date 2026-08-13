@@ -1,0 +1,59 @@
+---
+- name: Deploy Vector, ClickHouse and Lighthouse
+  hosts: all
+  become: true
+
+  pre_tasks:
+    # Задачи, которые нужно выполнить ДО любых ролей
+    - name: Ensure required directories exist
+      file:
+        path: "{{ item }}"
+        state: directory
+        mode: "0755"
+      loop:
+        - "{{ vector_config_path }}"
+        - "{{ clickhouse_data_dir }}"
+
+    - name: Update apt cache (Debian/Ubuntu)
+      apt:
+        update_cache: true
+      when: ansible_os_family == "Debian"
+
+  roles:
+    # Порядок важен: зависимости должны быть раньше зависимых ролей
+    - name: vector-role
+    - name: clickhouse-role 
+    - name: lighthouse
+
+  tasks:
+    # Задачи, выполняемые ПОСЛЕ ролей (можно и ДО, если вынести в pre_tasks)
+    - name: Verify ClickHouse service is running
+      systemd:
+        name: clickhouse-server
+        state: started
+        enabled: true
+      register: ch_service_result
+      until: ch_service_result.changed == false or ch_service_result.failed == false
+      retries: 5
+      delay: 10
+      failed_when: false
+      # Дальше можно сделать fail, если сервис так и не запустился
+
+    - name: Check Lighthouse health endpoint
+      uri:
+        url: "{{ lighthouse_url }}/health"
+        method: GET
+        return_content: false
+        status_code: 200
+      register: lighthouse_health
+      ignore_errors: true
+
+    - name: Fail if Lighthouse is not healthy
+      fail:
+        msg: "Lighthouse health check failed"
+      when: lighthouse_health is failed
+
+    - name: Run a custom post-deployment task
+      copy:
+        content: "Deployment completed at {{ ansible_date_time.iso8601 }}"
+        dest: "/var/log/deployment_status.log"
