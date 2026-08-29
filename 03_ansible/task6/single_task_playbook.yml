@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Include the ELK config role from the collection
+      ansible.builtin.include_role:
+        name: yandex_elk_config
+        allow_duplicates: yes
+      vars:
+        elk_config_path: "/tmp/custom_elk.conf"
+        elk_config_content: "Custom ELK configuration content"
+        elk_config_mode: "0640"
