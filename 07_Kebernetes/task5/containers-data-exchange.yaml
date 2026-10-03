@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-exchange-deployment
+  labels:
+    app: data-exchange
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: data-exchange
+  template:
+    metadata:
+      labels:
+        app: data-exchange
+    spec:
+      # Том emptyDir создается при старте пода и существует до его удаления.
+      # Он физически располагается на узле, где запущен под.
+      volumes:
+        - name: shared-data
+          emptyDir: {}
+      containers:
+        # Контейнер для записи данных
+        - name: busybox-writer
+          image: busybox:latest
+          command: ["/bin/sh", "-c"]
+          # Бесконечный цикл: запись строки с датой каждые 5 секунд
+          args:
+            - >
+              while true; do
+                echo "$(date): Data from busybox container" >> /data/shared-data.log;
+                sleep 5;
+              done
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+        # Контейнер для чтения данных
+        - name: multitool-reader
+          # Образ содержит набор сетевых утилит и bash
+          image: wbitt/network-multitool
+          command: ["/bin/sh", "-c"]
+          # Команда будет запущена после инструкции по проверке
+          args:
+            - >
+              echo "Multitool reader started. Waiting for data...";
+              tail -f /data/shared-data.log;
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data

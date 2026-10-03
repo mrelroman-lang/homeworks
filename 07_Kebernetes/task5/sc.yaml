@@ -1,0 +1,65 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-path-sc
+provisioner: microk8s.io/hostpath
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: local-path-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: local-path-sc
+  resources:
+    requests:
+      storage: 100Mi # 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-storage-deployment
+  labels:
+    app: dynamic-storage
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dynamic-storage
+  template:
+    metadata:
+      labels:
+        app: dynamic-storage
+    spec:
+      containers:
+        # Писатель
+        - name: busybox-writer
+          image: busybox
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              while true; do
+                echo "$(date): Data from busybox (Dynamic PVC)" >> /data/output.log;
+                sleep 5;
+              done
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+        # Читатель
+        - name: multitool-reader
+          image: wbitt/network-multitool
+          command: ["/bin/sh", "-c"]
+          args:
+            - >
+              echo "Reader started. Watching /data/output.log...";
+              tail -f /data/output.log;
+          volumeMounts:
+            - name: shared-data
+              mountPath: /data
+      volumes:
+        - name: shared-data
+          persistentVolumeClaim:
+            claimName: local-path-pvc
