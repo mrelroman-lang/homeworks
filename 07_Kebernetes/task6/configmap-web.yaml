@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: web-page-config # ИЗМЕНИТЕ: Укажите имя ConfigMap
+  labels:
+    app: web-app
+data:
+  # КЛЮЧЕВОЙ МОМЕНТ: index.html будет подключен как файл
+  index.html: |
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>!Страница из Домашнего задания по ConfigMap!</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background-color: #f4f4f9; }
+            .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+            .status { color: #28a745; font-weight: bold; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>ПрЮвет Волку от Kubernetes!</h1>
+            <p class="status">Статус:Усё работает</p>
+            <p>Эта страница смонтирована в Nginx из ConfigMap.</p>
+            <p>Время генерации: <span id="time"></span></p>
+        </div>
+        <script>
+            document.getElementById('time').textContent = new Date().toLocaleString();
+        </script>
+    </body>
+    </html>
