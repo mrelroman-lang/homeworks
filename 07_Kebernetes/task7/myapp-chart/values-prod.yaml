@@ -1,0 +1,16 @@
+app:
+  replicas: 3
+  image:
+    tag: "1.29"          # в prod — другая версия образа
+
+config:
+  indexHtml: |
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"><title>Prod</title></head>
+    <body><h1>Привет из продакшена!</h1></body>
+    </html>
+
+ingress:
+  host: myapp.prod.example.com
+  tlsSecretName: myapp-tls-prod

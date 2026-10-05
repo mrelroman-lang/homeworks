@@ -1,0 +1,32 @@
+global:
+  namespace: default
+
+app:
+  name: myapp
+  image:
+    repository: nginx
+    tag: "1.27"          # <-- версия меняется здесь
+  replicas: 1
+  port: 80
+
+redis:
+  enabled: true
+  image:
+    repository: redis
+    tag: "7.4"           # <-- версия меняется здесь
+  replicas: 1
+  storageSize: 1Gi
+
+config:
+  indexHtml: |
+    <!DOCTYPE html>
+    <html>
+    <head><meta charset="UTF-8"><title>Страница из ConfigMap!</title></head>
+    <body><h1>ПрЮвет Волку от Helm!</h1><p>Окружение: dev</p></body>
+    </html>
+
+ingress:
+  enabled: true
+  host: myapp.example.com
+  tlsSecretName: myapp-tls
+  ingressClassName: nginx

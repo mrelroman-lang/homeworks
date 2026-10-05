@@ -1,0 +1,32 @@
+{{- if .Values.redis.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "myapp.fullname" . }}-redis
+  labels:
+    app: {{ include "myapp.fullname" . }}-redis
+spec:
+  serviceName: {{ include "myapp.fullname" . }}-redis
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "myapp.fullname" . }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ include "myapp.fullname" . }}-redis
+    spec:
+      containers:
+      - name: redis
+        image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+        ports:
+        - containerPort: 6379
+  volumeClaimTemplates:
+  - metadata:
+      name: redis-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: {{ .Values.redis.storageSize }}
+{{- end }}
