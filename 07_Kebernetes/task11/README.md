@@ -49,5 +49,5 @@ kubectl port-forward deployment/web-app 8080:80
 
 Посмотреть историю, выполнить откат:
 
-![](./assets/5.png)
-
+![](./assets/7.png)
+
